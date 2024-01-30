@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="output"></div>
+    <script>
+      const output = document.getElementById("output");
+
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get("email");
+
+      async function requestVerifyEmail() {
+        try {
+          const response = await fetch(`/api/auth/verify-email?email=${email}`);
+          const data = await response.json();
+          console.log(data);
+          output.innerHTML = data.message;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      requestVerifyEmail();
+    </script>
+  </body>
+</html>

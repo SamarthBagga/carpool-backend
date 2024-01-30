@@ -3,7 +3,11 @@ const { genSalt, hash, compare } = require("bcrypt");
 
 const userSchema = new Schema(
   {
-    username: {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
       type: String,
       required: true,
     },
@@ -11,13 +15,21 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    registrationNumber: {
-      type: Number,
+    email: {
+      type: String,
       required: true,
       unique: true,
     },
+    ratingStats: {
+      totalRatings: { type: Number, default: 0 },
+      averageRating: { type: Number, default: null, min: 1, max: 5 },
+    },
+    verifiedEmail: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {

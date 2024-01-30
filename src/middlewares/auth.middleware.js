@@ -1,7 +1,7 @@
 const { verify } = require("jsonwebtoken");
 
 exports.authMiddleware = function (req, res, next) {
-  const loginToken = req.cookies["some-secret-token"];
+  const loginToken = req.cookies["secret-token"];
   if (!loginToken) {
     return res
       .status(401)
