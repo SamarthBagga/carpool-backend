@@ -6,7 +6,6 @@ module.exports = {
       statusCode: 404,
       requestedMethod: req.baseUrl,
       message: "Requested endpoint or method is not supported by the server",
-      routes: "The following routes with their methods are given below",
     });
   },
 };
