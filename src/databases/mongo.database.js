@@ -5,7 +5,7 @@ exports.databaseConnection = async function () {
     await connect(process.env.DB_HOST);
     console.log(`Connected to MongoDB at ${process.env.DB_HOST}`);
   } catch (err) {
-    console.err(err);
+    console.error(err);
     process.exit(1);
   }
 };
