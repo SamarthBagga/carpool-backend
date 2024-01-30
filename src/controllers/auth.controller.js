@@ -63,6 +63,13 @@ module.exports = {
 
   async registerUser(req, res) {
     const { firstName, lastName, email, password } = req.body;
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Email or Password fields are empty. Please fill both of them.",
+      });
+    }
 
     try {
       const userExists = await User.findOne({ email });
