@@ -1,5 +1,5 @@
 const { resolve } = require("path");
-const { sign } = require("jsonwebtoken");
+const { sign, verify } = require("jsonwebtoken");
 const User = require("../models/user.model");
 const { sendMail } = require("../services/mailer.service");
 
@@ -79,25 +79,29 @@ module.exports = {
           message: "user already exists",
         });
       }
-      const body = `
-      Hi ${firstName} ${lastName},
-      Click on the following link to confirm that you are using a valid Manipal University Jaipur Email ID,
-      ${SERVER_URL}/api/auth/verify-email-page?email=${email}
-    `;
+
+      const userToken = sign(email, process.env.SECRET_KEY);
+
+      const markup = `
+        <p>
+          Hi ${firstName} ${lastName},<br>
+          Click on the below link to verify your account.<br>
+          <a href="${SERVER_URL}/api/auth/verify-email-page?xc=${userToken}">Verify Your Account</a>
+        </p>
+      `;
 
       if (process.env.ENABLE_MAILER === "true") {
-        const result = await sendMail(email, "Confirm Email MUJ Carpool", body);
+        const result = await sendMail(
+          email,
+          "Verify Email Carpool MUJ",
+          markup
+        );
         console.log("mailer-result", result.response);
       }
 
-      const newUser = new User({
-        firstName,
-        lastName,
-        email,
-        password,
-      });
+      const newUser = new User({ firstName, lastName, email, password });
 
-      const savedUser = await newUser.save();
+      const savedUser = await newUser.save("_id");
       const { password: _, ...rest } = savedUser.toObject();
 
       return res.json({
@@ -113,13 +117,15 @@ module.exports = {
     }
   },
   async verifyEmailHandler(req, res) {
-    const { email } = req.query;
+    const { token } = req.query;
     try {
-      if (!email) {
-        throw new Error("email not present in query params. " + email);
+      if (!token) {
+        throw new Error("email not present in query params. " + token);
       }
 
-      const user = await User.findOne({ email });
+      const decodedEmail = verify(token, process.env.SECRET_KEY);
+
+      const user = await User.findOne({ email: decodedEmail });
 
       if (!user) {
         return res.status(400).json({

@@ -11,16 +11,15 @@
       const output = document.getElementById("output");
 
       const params = new URLSearchParams(window.location.search);
-      const email = params.get("email");
+      const xc = params.get("xc");
 
       async function requestVerifyEmail() {
         try {
-          const response = await fetch(`/api/auth/verify-email?email=${email}`);
+          const response = await fetch(`/api/auth/verify-email?token=${xc}`);
           const data = await response.json();
-          console.log(data);
           output.innerHTML = data.message;
         } catch (err) {
-          console.log(err);
+          output.innerHTML = "Something went wrong while verifying";
         }
       }
       requestVerifyEmail();

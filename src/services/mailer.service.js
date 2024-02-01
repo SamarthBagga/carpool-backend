@@ -12,13 +12,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.sendMail = async function (receiver, subject, body) {
+exports.sendMail = async function (receiver, subject, markup) {
   try {
     const result = await transporter.sendMail({
       from: mailerConfig.user,
       to: receiver,
       subject,
-      text: body,
+      html: markup,
     });
     return result;
   } catch (err) {

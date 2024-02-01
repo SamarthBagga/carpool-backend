@@ -13,6 +13,9 @@ exports.authMiddleware = function (req, res, next) {
     console.log("verified", decodedUser);
     next();
   } catch (err) {
-    return res.json({ success: false, message: "you are not authorized" });
+    return res.json({
+      success: false,
+      message: "you are not authorized",
+    });
   }
 };

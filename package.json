@@ -1,11 +1,10 @@
 {
-  "name": "auth-express",
-  "version": "1.0.0",
-  "description": "",
+  "name": "carpool-backend",
+  "version": "0.0.3",
+  "description": "Backend for Carpool MUJ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ENV=DEV ENABLE_MAILER=false node ./src/index.js",
+    "dev": "ENV=DEV ENABLE_MAILER=true node ./src/index.js",
     "server": "ENV=PROD ENABLE_MAILER=false node ./src/index.js"
   },
   "keywords": [],
