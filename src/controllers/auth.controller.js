@@ -101,8 +101,9 @@ module.exports = {
 
       const newUser = new User({ firstName, lastName, email, password });
 
-      // only temporarily
-      newUser.verifiedEmail = true;
+      if (process.env.ENABLE_MAILER === "true") {
+        newUser.verifiedEmail = true;
+      }
 
       const savedUser = await newUser.save();
       const { password: _, ...rest } = savedUser.toObject();
