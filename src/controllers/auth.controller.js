@@ -58,7 +58,7 @@ module.exports = {
       httpOnly: true,
       maxAge: COOKIE_MAX_AGE,
     });
-    return res.json({ success: true });
+    return res.json({ success: true, message: "successfully logged in" });
   },
 
   async registerUser(req, res) {
@@ -106,6 +106,7 @@ module.exports = {
 
       return res.json({
         success: true,
+        message: "successfully created the user",
         user: rest,
       });
     } catch (err) {
