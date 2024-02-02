@@ -101,7 +101,10 @@ module.exports = {
 
       const newUser = new User({ firstName, lastName, email, password });
 
-      const savedUser = await newUser.save("_id");
+      // only temporarily
+      newUser.verifiedEmail = true;
+
+      const savedUser = await newUser.save();
       const { password: _, ...rest } = savedUser.toObject();
 
       return res.json({
