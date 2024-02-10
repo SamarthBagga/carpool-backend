@@ -10,7 +10,6 @@ exports.authMiddleware = function (req, res, next) {
   try {
     const decodedUser = verify(loginToken, process.env.SECRET_KEY);
     req.user = decodedUser;
-    console.log("verified", decodedUser);
     next();
   } catch (err) {
     return res.json({

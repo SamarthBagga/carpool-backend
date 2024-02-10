@@ -53,7 +53,10 @@ module.exports = {
       });
     }
 
-    const token = sign({ email, password }, process.env.SECRET_KEY);
+    const token = sign(
+      { id: existingUser._id, email, password },
+      process.env.SECRET_KEY
+    );
     res.cookie("secret-token", token, {
       httpOnly: true,
       maxAge: COOKIE_MAX_AGE,
@@ -101,7 +104,7 @@ module.exports = {
 
       const newUser = new User({ firstName, lastName, email, password });
 
-      if (process.env.ENABLE_MAILER === "true") {
+      if (process.env.ENABLE_MAILER === "false") {
         newUser.verifiedEmail = true;
       }
 

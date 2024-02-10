@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const bookingSchema = Schema(
+const rideSchema = Schema(
   {
     host: {
       type: Schema.Types.ObjectId,
@@ -39,5 +39,5 @@ const bookingSchema = Schema(
   { timestamps: true }
 );
 
-const Booking = model("Booking", bookingSchema);
-module.exports = Booking;
+const Ride = model("Ride", rideSchema);
+module.exports = Ride;

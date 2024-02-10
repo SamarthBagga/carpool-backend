@@ -7,9 +7,9 @@ const requestSchema = Schema(
       ref: "User",
       required: true,
     },
-    booking: {
+    ride: {
       type: Schema.Types.ObjectId,
-      ref: "Booking",
+      ref: "Ride",
       requried: true,
     },
     status: {
