@@ -33,6 +33,7 @@ const rideSchema = Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Request",
+        unique: true,
       },
     ],
   },

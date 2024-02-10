@@ -67,8 +67,6 @@ module.exports = {
         requestTicket: populatedRequest,
       });
     } catch (err) {
-      console.error(err);
-
       await session.abortTransaction();
 
       res.status(500).json({
@@ -154,17 +152,27 @@ module.exports = {
   async getUserRides(req, res) {
     const userId = req.user.id;
     try {
-      const userRequests = await Request.find({ passenger: userId });
+      const requests = await Request.find({ passenger: userId })
+        .populate({
+          path: "ride",
+          select: "-requests -__v",
+          options: { distinct: true },
+        })
+        .select({ _id: 1, ride: 1, status: 1 });
+
       return res.json({
         success: true,
         message: "these are the rides user has requested to be in",
-        requests: userRequests,
+        user: {
+          userId: req.user.id,
+          email: req.user.email,
+        },
+        requests: requests,
       });
     } catch (err) {
       return res.status(500).json({
         success: false,
-        message: "could not fetch user requests",
-        error: err,
+        message: `could not fetch requests made by the userid: ${userId}`,
       });
     }
   },
