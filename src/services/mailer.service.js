@@ -14,13 +14,12 @@ const transporter = nodemailer.createTransport({
 
 exports.sendMail = async function (receiver, subject, markup) {
   try {
-    const result = await transporter.sendMail({
+    return await transporter.sendMail({
       from: mailerConfig.user,
       to: receiver,
       subject,
       html: markup,
     });
-    return result;
   } catch (err) {
     console.log("MAILER ERROR", err);
     throw err; // this should be handled in the auth.controller.js registerHandler() catch

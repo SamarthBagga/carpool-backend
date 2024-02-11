@@ -5,7 +5,7 @@ const { sendMail } = require("../services/mailer.service");
 
 console.log(
   "Mailing service for email verification is set to:",
-  process.env.ENABLE_MAILER
+  process.env.ENABLE_MAILER,
 );
 
 const COOKIE_MAX_AGE = 8640000000; // 100 days
@@ -55,7 +55,7 @@ module.exports = {
 
     const token = sign(
       { id: existingUser._id, email, password },
-      process.env.SECRET_KEY
+      process.env.SECRET_KEY,
     );
     res.cookie("secret-token", token, {
       httpOnly: true,
@@ -97,7 +97,7 @@ module.exports = {
         const result = await sendMail(
           email,
           "Verify Email Carpool MUJ",
-          markup
+          markup,
         );
         console.log("mailer-result", result.response);
       }

@@ -23,6 +23,7 @@ module.exports = {
         description,
       });
       const result = await ride.save();
+
       res.status(201).json({
         success: true,
         message: "successfully created the ride",
@@ -105,13 +106,13 @@ module.exports = {
         throw new Error("No request with the given id");
       }
 
-      if (req.user.id != requestDocument.ride.host) {
+      if (req.user.id !== requestDocument.ride.host.toString()) {
         throw new Error("Only host of the ride can update the status");
       }
 
       if (status === "approved" && requestDocument.status !== "pending") {
         throw new Error(
-          `Invalid status transition ${requestDocument.status} -> ${status}`
+          `Invalid status transition ${requestDocument.status} -> ${status}`,
         );
       }
 
@@ -123,7 +124,7 @@ module.exports = {
             capacity: 1,
             _id: 0,
           },
-          { session }
+          { session },
         );
         if (ride.requests.length >= ride.capacity) {
           throw new Error("ride is full, cannot add more passengers");
