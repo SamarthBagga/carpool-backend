@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { genSalt, hash, compare } = require("bcrypt");
 
-const userSchema = new Schema(
+const userSchema = Schema(
   {
     firstName: {
       type: String,
@@ -29,7 +29,7 @@ const userSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.pre("save", async function (next) {

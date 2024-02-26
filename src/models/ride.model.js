@@ -17,7 +17,7 @@ const rideSchema = Schema(
     },
     capacity: {
       type: Number,
-      requried: true,
+      required: true,
       min: [1, "Capacity must be atleast 1"],
       max: [50, "Capacity cannot exceed 50"],
     },
@@ -27,7 +27,7 @@ const rideSchema = Schema(
     },
     description: {
       type: String,
-      requried: true,
+      required: true,
     },
     requests: [
       {
@@ -37,7 +37,7 @@ const rideSchema = Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Ride = model("Ride", rideSchema);

@@ -15,10 +15,6 @@ const SERVER_URL =
     ? `http://localhost:${process.env.SERVER_PORT}`
     : `https://carpool-backend-muj.onrender.com`;
 
-/**
- * code looks very bad, abstract out some parts in a util.
- * look at those checks, someone suggest a better way to do it.
- * */
 module.exports = {
   async loginHandler(req, res) {
     const { email, password } = req.body;

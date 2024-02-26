@@ -10,7 +10,7 @@ const requestSchema = Schema(
     ride: {
       type: Schema.Types.ObjectId,
       ref: "Ride",
-      requried: true,
+      required: true,
       unique: true,
     },
     status: {
@@ -19,7 +19,7 @@ const requestSchema = Schema(
       default: "pending",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Request = model("Request", requestSchema);

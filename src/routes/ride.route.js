@@ -7,7 +7,9 @@ const router = express.Router();
 router
   .post("/create", authMiddleware, rideController.createRide)
   .post("/request", authMiddleware, rideController.requestRide)
+  .post("/search", authMiddleware, rideController.searchRides)
   .post("/update-status", authMiddleware, rideController.updateStatus)
+  .get("/pending-requests", authMiddleware)
   .get("/user", authMiddleware, rideController.getUserRides);
 
 module.exports = router;

@@ -6,7 +6,7 @@ exports.authMiddleware = function (req, res, next) {
   if (!loginToken) {
     return res
       .status(401)
-      .json({ success: false, message: "you are not authorized" });
+      .json({ success: false, message: "token not provided" });
   }
   try {
     req.user = verify(loginToken, process.env.SECRET_KEY);

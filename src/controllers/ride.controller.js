@@ -177,4 +177,71 @@ module.exports = {
       });
     }
   },
+  async searchRides(req, res) {
+    const { from, to, date } = req.body;
+    try {
+      const rides = await Ride.find({ from, to, date }).populate({
+        path: "host",
+        select: "-password -verifiedEmail",
+      });
+      res.json({
+        success: true,
+        rides,
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        message: "error in fetching rides with the given parameters",
+      });
+    }
+  },
+  async previousRidesHistory(req, res) {
+    try {
+      const { id: user_id } = req.user;
+
+      const passengerRequests = await Request.find({
+        passenger: user_id,
+        status: "approved",
+      })
+        .select("ride")
+        .populate("ride");
+
+      const passengerRides = passengerRequests.map((request) => request.ride);
+
+      const hostRides = await Ride.find({ host: user_id });
+
+      return res.status(200).json({
+        success: true,
+        message: "This is the previous ride history of the given user",
+        rides: passengerRides + hostRides,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        message: "Could not fetch the previous ride history for the give user",
+      });
+    }
+  },
+  async getCreatedRidesByUser(req, res) {
+    const { id } = req.user;
+    try {
+      const rides = await Ride.find({ host: id }).populate({
+        path: "host",
+        select: "-password -verifiedEmail",
+      });
+      return res.json({
+        success: true,
+        message: "These are the rides created by the given user",
+        rides,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: true,
+        message: "Could not get the rides created by the user",
+      });
+    }
+  },
 };
