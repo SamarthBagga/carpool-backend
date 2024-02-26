@@ -150,7 +150,7 @@ module.exports = {
       await session.endSession();
     }
   },
-  async getUserRides(req, res) {
+  async getUserRideRequests(req, res) {
     const userId = req.user.id;
     try {
       const requests = await Request.find({ passenger: userId })
@@ -196,7 +196,7 @@ module.exports = {
       });
     }
   },
-  async previousRidesHistory(req, res) {
+  async getUserRideHistory(req, res) {
     try {
       const { id: user_id } = req.user;
 
@@ -220,7 +220,7 @@ module.exports = {
       console.error(err);
       return res.status(500).json({
         success: false,
-        message: "Could not fetch the previous ride history for the give user",
+        message: "Could not fetch the ride history for the give user",
       });
     }
   },
