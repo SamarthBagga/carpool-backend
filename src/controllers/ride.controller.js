@@ -157,7 +157,7 @@ module.exports = {
           options: { distinct: true },
           populate: {
             path: "host",
-            select: "-__v -_id -verifiedEmail",
+            select: "-__v -_id -verifiedEmail -password -createdAt -updatedAt",
           },
         })
         .select({ _id: 1, ride: 1, status: 1 });
