@@ -5,17 +5,9 @@ const Ride = require("../models/ride.model");
 module.exports = {
   async createRide(req, res) {
     try {
-      const { host, from, to, date, capacity, description } = req.body;
-
-      if (req.user.id !== host) {
-        return res.json({
-          success: false,
-          message: "Host should be the same as poster",
-        });
-      }
+      const { from, to, date, capacity, description } = req.body;
 
       const ride = new Ride({
-        host,
         from,
         to,
         date,
