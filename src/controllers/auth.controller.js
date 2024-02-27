@@ -64,7 +64,6 @@ module.exports = {
       process.env.SECRET_KEY,
     );
     res.cookie("secret-token", token, {
-      httpOnly: true,
       maxAge: COOKIE_MAX_AGE,
       sameSite: "none",
       secure: true,
