@@ -15,6 +15,16 @@ const SERVER_URL =
     ? `http://localhost:${process.env.SERVER_PORT}`
     : `https://carpool-backend-muj.onrender.com`;
 
+const validDomains = ["muj.manipal.edu", "jaipur.manipal.edu"];
+
+function validEmail(email) {
+  if (!email.includes("@")) {
+    return false;
+  }
+  const emailDomain = email.split("@")[1];
+  return validDomains.includes(emailDomain);
+}
+
 module.exports = {
   async loginHandler(req, res) {
     const { email, password } = req.body;
@@ -64,11 +74,11 @@ module.exports = {
 
   async registerUser(req, res) {
     const { firstName, lastName, email, password } = req.body;
-    if (!firstName || !lastName || !email || !password) {
+
+    if (!firstName || !lastName || !email || !password || validEmail(email)) {
       return res.status(400).json({
         success: false,
-        message:
-          "Email or Password fields are empty. Please fill both of them.",
+        message: "Invalid credentials",
       });
     }
 
