@@ -7,6 +7,10 @@ module.exports = {
     try {
       const { from, to, date, capacity, description } = req.body;
 
+      if (!from || !to || !date || !capacity) {
+        throw new Error("Some field is missing from the body");
+      }
+
       const ride = new Ride({
         host: req.user.id,
         from,
