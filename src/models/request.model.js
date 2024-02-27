@@ -11,7 +11,6 @@ const requestSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: "Ride",
       required: true,
-      unique: true,
     },
     status: {
       type: String,
