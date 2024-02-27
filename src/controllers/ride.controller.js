@@ -155,6 +155,10 @@ module.exports = {
           path: "ride",
           select: "-requests -__v",
           options: { distinct: true },
+          populate: {
+            path: "host",
+            select: "-__v -_id -verifiedEmail",
+          },
         })
         .select({ _id: 1, ride: 1, status: 1 });
 
