@@ -76,6 +76,28 @@ module.exports = {
       await session.endSession();
     }
   },
+  async cancelRequest(req, res) {
+    const { requestId } = req.body;
+
+    try {
+      const result = await Request.findByIdAndDelete(requestId);
+      if (!result) {
+        return res.status(401).json({
+          success: false,
+          message: `Request with the given requestId: ${requestId} does not exist`,
+        });
+      }
+      return res.json({
+        success: true,
+        message: "Successfully cancelled the request to the ride",
+      });
+    } catch (e) {
+      return res.status(500).json({
+        success: false,
+        message: "something went wrong while cancelling the request",
+      });
+    }
+  },
   async updateStatus(req, res) {
     const { requestId, status } = req.body;
 
