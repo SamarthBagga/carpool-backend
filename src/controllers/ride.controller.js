@@ -8,6 +8,7 @@ module.exports = {
       const { from, to, date, capacity, description } = req.body;
 
       const ride = new Ride({
+        host: req.user.id,
         from,
         to,
         date,
