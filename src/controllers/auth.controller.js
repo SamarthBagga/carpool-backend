@@ -74,6 +74,8 @@ module.exports = {
   async registerUser(req, res) {
     const { firstName, lastName, email, password } = req.body;
 
+    console.log(validEmail(email));
+
     if (!firstName || !lastName || !email || !password || !validEmail(email)) {
       return res.status(400).json({
         success: false,

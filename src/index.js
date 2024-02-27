@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const authRoute = require("./routes/auth.route");
 const rideRoute = require("./routes/ride.route");
+const userRoute = require("./routes/user.route");
 const defaultRoute = require("./routes/default.route");
 const { databaseConnection } = require("./databases/mongo.database");
 const { corsOptions } = require("./configs/cors.config");
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/rides", rideRoute);
+app.use("/api/user", userRoute);
 app.use("*", defaultRoute);
 
 async function main() {
