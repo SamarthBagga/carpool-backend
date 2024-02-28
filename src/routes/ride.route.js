@@ -10,6 +10,7 @@ router
   .post("/search", authMiddleware, rideController.searchRides)
   .post("/update-status", authMiddleware, rideController.updateStatus)
   .post("/cancel", authMiddleware, rideController.cancelRequest)
+  .post("/", authMiddleware, rideController.getRideDetailById)
   .get("/user-ride-history", authMiddleware, rideController.getUserRideHistory)
   .get("/user-created", authMiddleware, rideController.getCreatedRidesByUser)
   .get("/user-requests", authMiddleware, rideController.getUserRideRequests);

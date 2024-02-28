@@ -3,6 +3,44 @@ const Request = require("../models/request.model");
 const Ride = require("../models/ride.model");
 
 module.exports = {
+  async getRideDetailById(req, res) {
+    console.log("random shit")
+    const {id} = req.body;
+    // console.log(id)
+    
+    try {
+      const rideDetails = await Ride.findById(id).populate({path:"host"}).populate({
+        path: "requests",
+        populate: {
+          path: "passenger"
+        }
+      })
+      console.log(rideDetails)
+      return res.json({
+        success: true,
+        message: "these are the ride details",
+        rideDetails
+      })
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        message: "could not fetch the ride details"
+      })
+    }
+    // const rideDetails = await Ride.findById(id).populate({
+    //   path: "requests",
+    //   populate: {
+    //     path: "passenger"
+    //   }
+    // })
+    // console.log(rideDetails);
+
+    // return res.json({
+    //   success: true,
+    //   message: "Ride details are as follows",
+    //   rideDetails
+    // })
+  },
   async createRide(req, res) {
     try {
       const { from, to, date, capacity, description } = req.body;
