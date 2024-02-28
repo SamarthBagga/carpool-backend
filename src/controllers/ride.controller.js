@@ -1,49 +1,44 @@
 const { startSession } = require("mongoose");
 const Request = require("../models/request.model");
 const Ride = require("../models/ride.model");
+const User = require("../models/user.model");
 
 module.exports = {
-  async getRideDetailById(req, res) {
-    console.log("random shit")
-    const {id} = req.body;
-    // console.log(id)
-    
+  getRideDetailById: async function (req, res) {
+    const { id } = req.body;
+
     try {
-      const rideDetails = await Ride.findById(id).populate({path:"host"}).populate({
-        path: "requests",
-        populate: {
-          path: "passenger"
-        }
-      })
-      console.log(rideDetails)
+      const rideDetails = await Ride.findById(id)
+        .populate("host", "-password -__v -verifiedEmail -createdAt -updatedAt")
+        .populate({
+          path: "requests",
+          select: "-__v -updatedAt",
+          populate: {
+            path: "passenger",
+            select: "-password -__v -verifiedEmail -createdAt -updatedAt",
+          },
+        })
+        .select("-__v");
+
+      console.log(rideDetails);
+
       return res.json({
         success: true,
-        message: "these are the ride details",
-        rideDetails
-      })
+        message: "These are the ride details",
+        rideDetails,
+      });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         success: false,
-        message: "could not fetch the ride details"
-      })
+        message: "could not fetch the ride details",
+        err: err,
+      });
     }
-    // const rideDetails = await Ride.findById(id).populate({
-    //   path: "requests",
-    //   populate: {
-    //     path: "passenger"
-    //   }
-    // })
-    // console.log(rideDetails);
-
-    // return res.json({
-    //   success: true,
-    //   message: "Ride details are as follows",
-    //   rideDetails
-    // })
   },
   async createRide(req, res) {
     try {
-      const { from, to, date, capacity, description } = req.body;
+      const { from, to, date, capacity, price, description } = req.body;
 
       if (!from || !to || !date || !capacity) {
         throw new Error("Some field is missing from the body");
@@ -55,6 +50,7 @@ module.exports = {
         to,
         date,
         capacity,
+        price,
         description,
       });
       const result = await ride.save();
@@ -167,11 +163,12 @@ module.exports = {
         throw new Error("Only host of the ride can update the status");
       }
 
-      if (status === "approved" && requestDocument.status !== "pending") {
-        throw new Error(
-          `Invalid status transition ${requestDocument.status} -> ${status}`,
-        );
-      }
+      // DISABLING THIS VALIDATION
+      // if (status === "approved" && requestDocument.status !== "pending") {
+      //   throw new Error(
+      //     `Invalid status transition ${requestDocument.status} -> ${status}`,
+      //   );
+      // }
 
       if (status === "approved") {
         const ride = await Ride.findById(
@@ -243,10 +240,11 @@ module.exports = {
     try {
       const rides = await Ride.find({ from, to, date }).populate({
         path: "host",
-        select: "-password -verifiedEmail",
+        select: "-password -verifiedEmail -__v",
       });
       res.json({
         success: true,
+        message: "these are the rides that match the given parameters",
         rides,
       });
     } catch (err) {
@@ -302,6 +300,38 @@ module.exports = {
       res.status(500).json({
         success: true,
         message: "Could not get the rides created by the user",
+      });
+    }
+  },
+  async updateRideDetails(req, res) {
+    try {
+      const { rideId, ...updatedRideDetails } = req.body;
+      console.log(req.body);
+
+      const updatedRide = await Ride.findByIdAndUpdate(
+        rideId,
+        { $set: updatedRideDetails },
+        { new: true },
+      );
+
+      if (!updatedRide) {
+        return res.status(404).json({
+          success: false,
+          message: `The ride with the given ID: ${rideId} does not exist`,
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "ride details have been updated",
+        ride: updatedRide,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: true,
+        message: "could not update the ride details",
+        error: error.message,
       });
     }
   },

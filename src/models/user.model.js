@@ -38,8 +38,7 @@ userSchema.pre("save", async function (next) {
       return next();
     }
     const salt = await genSalt(11);
-    const hashedPassword = await hash(this.password, salt);
-    this.password = hashedPassword;
+    this.password = await hash(this.password, salt);
     next();
   } catch (err) {
     next(err);

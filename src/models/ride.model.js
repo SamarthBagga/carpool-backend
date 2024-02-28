@@ -21,6 +21,10 @@ const rideSchema = Schema(
       min: [1, "Capacity must be atleast 1"],
       max: [50, "Capacity cannot exceed 50"],
     },
+    price: {
+      type: Number,
+      default: null,
+    },
     date: {
       type: String,
       required: true,
