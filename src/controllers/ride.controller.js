@@ -4,8 +4,41 @@ const Ride = require("../models/ride.model");
 const User = require("../models/user.model");
 
 module.exports = {
+  byId: async function (req, res) {
+    const { rideId: id } = req.params;
+
+    try {
+      const rideDetails = await Ride.findById(id)
+        .populate("host", "-password -__v -verifiedEmail -createdAt -updatedAt")
+        .populate({
+          path: "requests",
+          select: "-__v -updatedAt",
+          populate: {
+            path: "passenger",
+            select: "-password -__v -verifiedEmail -createdAt -updatedAt",
+          },
+        })
+        .select("-__v");
+
+      console.log(rideDetails);
+
+      return res.json({
+        success: true,
+        message: "These are the ride details",
+        rideDetails,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "could not fetch the ride details",
+        err: err,
+      });
+    }
+  },
   getRideDetailById: async function (req, res) {
     const { id } = req.body;
+    // const { rideId: id } = req.params;
 
     try {
       const rideDetails = await Ride.findById(id)

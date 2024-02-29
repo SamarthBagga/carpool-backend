@@ -9,6 +9,7 @@ const userRoute = require("./routes/user.route");
 const defaultRoute = require("./routes/default.route");
 const { databaseConnection } = require("./databases/mongo.database");
 const { corsOptions } = require("./configs/cors.config");
+const { swaggerInit } = require("./configs/swagger.config");
 
 const PORT = process.env.SERVER_PORT || 7000;
 
@@ -17,6 +18,7 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
+swaggerInit(app, PORT);
 app.use("/api/auth", authRoute);
 app.use("/api/rides", rideRoute);
 app.use("/api/user", userRoute);
