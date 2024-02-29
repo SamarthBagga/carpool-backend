@@ -6,6 +6,7 @@ const User = require("../models/user.model");
 module.exports = {
   byId: async function (req, res) {
     const { rideId: id } = req.params;
+    console.log("why is this being called anyways", id);
 
     try {
       const rideDetails = await Ride.findById(id)
