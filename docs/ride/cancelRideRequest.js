@@ -2,6 +2,11 @@ module.exports = {
   post: {
     tags: ["Rides"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "cancel request by id",
     requestBody: {
       required: true,

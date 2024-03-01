@@ -4,6 +4,11 @@ module.exports = {
   get: {
     tags: ["Rides"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "get the list of rides created by the user",
     responses: {
       200: {

@@ -1,29 +1,19 @@
-const rideSchema = require("./ride.schema");
-
 module.exports = {
   post: {
-    tags: ["Rides"],
-    summary: "update user request status",
+    tags: ["Auth"],
     parameters: [],
-    security: [
-      {
-        JWTAuthCookie: [],
-      },
-    ],
+    summary: "login",
     requestBody: {
       required: true,
       content: {
         "application/json": {
           schema: {
             properties: {
-              requestId: {
+              email: {
                 type: "string",
-                example: "65df19cccbf70ed1d138a9f3",
               },
-              status: {
+              password: {
                 type: "string",
-                enum: ["pending", "approved", "rejected"],
-                example: "approved",
               },
             },
           },
@@ -32,7 +22,17 @@ module.exports = {
     },
     responses: {
       200: {
-        description: "Update the Request status of a user",
+        description: "Login",
+        headers: {
+          "set-cookie": {
+            description: "The JWT token in a cookie",
+            schema: {
+              type: "string",
+            },
+            example:
+              "secret-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          },
+        },
         content: {
           "application/json": {
             schema: {
@@ -44,16 +44,15 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example:
-                    "successfully updated the status of the request to [STATUS]",
+                  example: "successfully logged in",
                 },
               },
             },
           },
         },
       },
-      400: {
-        description: "Bad Request, any or both of the field(s) are missing",
+      401: {
+        description: "Server could not process the request",
         content: {
           "application/json": {
             schema: {
@@ -65,7 +64,27 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "need to provide both requestId and status",
+                  example: "Request with the given requestId does not exist",
+                },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "User verification failed",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                success: {
+                  type: "boolean",
+                  example: false,
+                },
+                message: {
+                  type: "string",
+                  example: "User does not exist",
                 },
               },
             },
@@ -85,11 +104,7 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "could not update the status of the requets",
-                },
-                error: {
-                  type: "string",
-                  example: "Error details",
+                  example: "Internal Server error",
                 },
               },
             },

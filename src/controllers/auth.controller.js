@@ -5,7 +5,7 @@ const { sendMail } = require("../services/mailer.service");
 
 console.log(
   "Mailing service for email verification is set to:",
-  process.env.ENABLE_MAILER,
+  process.env.ENABLE_MAILER
 );
 
 const COOKIE_MAX_AGE = 8640000000; // 100 days
@@ -28,6 +28,7 @@ function validEmail(email) {
 module.exports = {
   async loginHandler(req, res) {
     const { email, password } = req.body;
+    console.log(req.body);
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -35,44 +36,61 @@ module.exports = {
           "Email or Password fields are empty. Please fill both of them.",
       });
     }
-    const existingUser = await User.findOne({ email });
 
-    if (!existingUser) {
-      return res.status(401).json({
+    try {
+      const existingUser = await User.findOne({ email });
+
+      if (!existingUser) {
+        return res.status(401).json({
+          success: false,
+          message: "user does not exist",
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
         success: false,
-        message: "user does not exist",
+        message: "internal server error while verifying the email",
+        err: err.message
       });
     }
 
-    const isPasswordValid = await existingUser.validUser(password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
+    try {
+      const isPasswordValid = await existingUser.validUser(password);
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          success: false,
+          message: "user does not exist",
+        });
+      }
+
+      if (!existingUser.verifiedEmail) {
+        return res.status(401).json({
+          success: false,
+          message: "email has not been verified",
+        });
+      }
+
+      const token = sign(
+        { id: existingUser._id, email, password },
+        process.env.SECRET_KEY
+      );
+      res.cookie("secret-token", token, {
+        maxAge: COOKIE_MAX_AGE,
+        sameSite: "none",
+        secure: true,
+      });
+      return res.json({ success: true, message: "successfully logged in" });
+    } catch (err) {
+      return res.status(500).json({
         success: false,
-        message: "user does not exist",
+        message: "internal server error while validating user",
       });
     }
-
-    if (!existingUser.verifiedEmail) {
-      return res.status(401).json({
-        success: false,
-        message: "email has not been verified",
-      });
-    }
-
-    const token = sign(
-      { id: existingUser._id, email, password },
-      process.env.SECRET_KEY,
-    );
-    res.cookie("secret-token", token, {
-      maxAge: COOKIE_MAX_AGE,
-      sameSite: "none",
-      secure: true,
-    });
-    return res.json({ success: true, message: "successfully logged in" });
   },
 
   async registerUser(req, res) {
     const { firstName, lastName, email, password } = req.body;
+    console.log(req.body);
 
     console.log(validEmail(email));
 
@@ -106,7 +124,7 @@ module.exports = {
         const result = await sendMail(
           email,
           "Verify Email Carpool MUJ",
-          markup,
+          markup
         );
         console.log("mailer-result", result.response);
       }

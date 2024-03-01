@@ -5,6 +5,11 @@ module.exports = {
   get: {
     tags: ["User"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "get the user profile",
     responses: {
       200: {

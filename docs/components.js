@@ -1,9 +1,20 @@
 module.exports = {
   components: {
+    securitySchemes: {
+      JWTAuthCookie: {
+        type: "apiKey",
+        in: "cookie",
+        name: "secret-token",
+      },
+    },
     schemas: {
       Ride: {
         type: "object",
         properties: {
+          _id: {
+            type: "string",
+            example: "65df19cccbf70ed1d138a9f3",
+          },
           host: {
             type: "string",
             example: "65df19cccbf70ed1d138a9f3",
@@ -38,6 +49,10 @@ module.exports = {
               type: "string",
               example: "65df19cccbf70ed1d138a9f3",
             },
+          },
+          createdAt: {
+            type: "string",
+            example: "2024-02-28T11:29:48.299Z",
           },
         },
       },

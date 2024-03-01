@@ -4,6 +4,11 @@ module.exports = {
   post: {
     tags: ["Rides"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "search for rides",
     requestBody: {
       required: true,

@@ -4,6 +4,11 @@ module.exports = {
   post: {
     tags: ["Rides"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "request to join a ride by id",
     requestBody: {
       required: true,
@@ -34,7 +39,7 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "Successfully cancelled the request",
+                  example: "successfully sent request to join",
                 },
                 requestTicket: {
                   ...requestSchema,

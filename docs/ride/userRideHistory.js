@@ -2,6 +2,11 @@ module.exports = {
   get: {
     tags: ["Rides"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "get the user ride history",
     responses: {
       200: {

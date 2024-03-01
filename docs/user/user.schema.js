@@ -3,6 +3,7 @@ module.exports = {
   properties: {
     _id: {
       type: "string",
+      example: "65df19cccbf70ed1d138a9f3",
     },
     firstName: {
       type: "string",

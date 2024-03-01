@@ -4,6 +4,11 @@ module.exports = {
   post: {
     tags: ["Rides"],
     parameters: [],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "create a new ride",
     requestBody: {
       required: true,
@@ -28,7 +33,7 @@ module.exports = {
               },
               price: {
                 type: "string",
-                example: "Rs. 900"
+                example: "Rs. 900",
               },
               description: {
                 type: "string",
@@ -40,7 +45,7 @@ module.exports = {
     },
     responses: {
       200: {
-        description: "Cancel Request to Ride by requestId",
+        description: "Create a new Ride",
         content: {
           "application/json": {
             schema: {
@@ -52,7 +57,7 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "Successfully cancelled the request",
+                  example: "successfully created the ride",
                 },
                 ride: {
                   ...rideSchema,
@@ -75,7 +80,7 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "something went wrong while cancelling the request",
+                  example: "failed to create a ride",
                 },
               },
             },

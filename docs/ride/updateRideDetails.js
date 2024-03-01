@@ -4,6 +4,11 @@ module.exports = {
   patch: {
     summary: "Update ride details",
     tags: ["Rides"],
+    security: [
+      {
+        JWTAuthCookie: [],
+      },
+    ],
     summary: "update ride details by id",
     requestBody: {
       description: "Updated ride details",
@@ -60,9 +65,10 @@ module.exports = {
                 },
                 message: {
                   type: "string",
+                  example: "ride details have been updated",
                 },
                 ride: {
-                  $ref: "#/components/schemas/Ride"
+                  $ref: "#/components/schemas/Ride",
                 },
               },
             },

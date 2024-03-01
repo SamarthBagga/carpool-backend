@@ -4,6 +4,10 @@ const status = require("../status-enum");
 module.exports = {
   type: "object",
   properties: {
+    _id: {
+      type: "string",
+      example: "65df19cccbf70ed1d138a9f3",
+    },
     host: {
       ...userSchema,
     },
@@ -45,6 +49,10 @@ module.exports = {
           ...status,
         },
       },
+    },
+    createdAt: {
+      type: "string",
+      example: "2024-02-28T11:29:48.299Z",
     },
   },
 };
