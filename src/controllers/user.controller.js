@@ -8,6 +8,12 @@ module.exports = {
       const userProfile = await User.findById(userId)
         .select("-password -__v -verifiedEmail -updatedAt")
         .lean();
+      if (!userProfile) {
+        return res.status(404).json({
+          success: false,
+          message: "user profile not found",
+        });
+      }
       res.json({
         success: true,
         message: "Done fetching user profile",
