@@ -23,7 +23,7 @@ app.use("/api/user", userRoute);
 
 const swaggerUi = require("swagger-ui-express");
 const docs = require("../docs");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(docs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(docs));
 app.use("*", defaultRoute);
 
 async function main() {
