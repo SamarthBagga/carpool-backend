@@ -18,10 +18,13 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
-swaggerInit(app, PORT);
 app.use("/api/auth", authRoute);
 app.use("/api/rides", rideRoute);
 app.use("/api/user", userRoute);
+
+const swaggerUi = require("swagger-ui-express");
+const docs = require("../docs");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(docs));
 app.use("*", defaultRoute);
 
 async function main() {

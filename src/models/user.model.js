@@ -22,7 +22,7 @@ const userSchema = Schema(
     },
     ratingStats: {
       totalRatings: { type: Number, default: 0 },
-      averageRating: { type: Number, default: null, min: 1, max: 5 },
+      averageRating: { type: Number, default: 0, min: 0, max: 5 },
     },
     verifiedEmail: {
       type: Boolean,
