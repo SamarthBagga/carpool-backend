@@ -5,7 +5,7 @@ const { authMiddleware } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 router
-  .post("/", authMiddleware, rideController.getRideDetailById)
+  .post("/get/:rideId", authMiddleware, rideController.byId)
   .post("/create", authMiddleware, rideController.createRide)
   .post("/request", authMiddleware, rideController.requestRide)
   .post("/search", authMiddleware, rideController.searchRides)
@@ -14,6 +14,6 @@ router
   .patch("/update", authMiddleware, rideController.updateRideDetails)
   .get("/user-ride-history", authMiddleware, rideController.getUserRideHistory)
   .get("/user-created", authMiddleware, rideController.getCreatedRidesByUser)
-  .get("/user-requests", authMiddleware, rideController.getUserRideRequests)
+  .get("/user-requests", authMiddleware, rideController.getUserRideRequests);
 
 module.exports = router;

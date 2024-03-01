@@ -3,7 +3,7 @@ const cancelRideRequest = require("./cancelRideRequest");
 const createRide = require("./createRide");
 const joinRequestRide = require("./joinRequestRide");
 const searchRides = require("./searchRides");
-const updateRideStatus = require("./updateRideStatus");
+const updateRequestStatus = require("./updateRequestStatus");
 const updateRideDetails = require("./updateRideDetails");
 const userRideHistory = require("./userRideHistory");
 const userCreatedRides = require("./userCreatedRides");
@@ -26,7 +26,7 @@ module.exports = {
     ...searchRides,
   },
   "/rides/update-status": {
-    ...updateRideStatus,
+    ...updateRequestStatus,
   },
   "/rides/update": {
     ...updateRideDetails,

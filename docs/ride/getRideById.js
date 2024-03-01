@@ -4,6 +4,7 @@ module.exports = {
   get: {
     tags: ["Rides"],
     parameters: [],
+    summary: "get ride details by ID",
     responses: {
       200: {
         description: "Gets the Ride Details by its ID",

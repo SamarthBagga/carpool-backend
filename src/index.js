@@ -9,7 +9,6 @@ const userRoute = require("./routes/user.route");
 const defaultRoute = require("./routes/default.route");
 const { databaseConnection } = require("./databases/mongo.database");
 const { corsOptions } = require("./configs/cors.config");
-const { swaggerInit } = require("./configs/swagger.config");
 
 const PORT = process.env.SERVER_PORT || 7000;
 

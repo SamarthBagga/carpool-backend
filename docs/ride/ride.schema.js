@@ -1,4 +1,5 @@
 const userSchema = require("../user/user.schema");
+const status = require("../status-enum");
 
 module.exports = {
   type: "object",
@@ -31,7 +32,19 @@ module.exports = {
     },
     requests: {
       type: "array",
-      example: []
+      items: {
+        type: "object",
+        properties: {
+          passenger: {
+            ...userSchema,
+          },
+          ride: {
+            type: "string",
+            example: "65df19cccbf70ed1d138a9f3",
+          },
+          ...status,
+        },
+      },
     },
   },
 };

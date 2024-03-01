@@ -1,4 +1,4 @@
-const userProfile = require("./user.profile");
+const userProfile = require("./userProfile");
 
 module.exports = {
   "/user/profile": {

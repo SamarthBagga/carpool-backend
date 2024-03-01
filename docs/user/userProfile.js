@@ -5,6 +5,7 @@ module.exports = {
   get: {
     tags: ["User"],
     parameters: [],
+    summary: "get the user profile",
     responses: {
       200: {
         description: "Get the user profile of the logged in user",

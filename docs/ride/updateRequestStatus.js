@@ -1,8 +1,10 @@
+const rideSchema = require("./ride.schema");
+
 module.exports = {
   post: {
     tags: ["Rides"],
+    summary: "update user request status",
     parameters: [],
-    summary: "cancel request by id",
     requestBody: {
       required: true,
       content: {
@@ -11,6 +13,12 @@ module.exports = {
             properties: {
               requestId: {
                 type: "string",
+                example: "65df19cccbf70ed1d138a9f3",
+              },
+              status: {
+                type: "string",
+                enum: ["pending", "approved", "rejected"],
+                example: "approved",
               },
             },
           },
@@ -19,7 +27,7 @@ module.exports = {
     },
     responses: {
       200: {
-        description: "Cancel Request to Ride by requestId",
+        description: "Update the Request status of a user",
         content: {
           "application/json": {
             schema: {
@@ -31,15 +39,16 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "Successfully cancelled the request",
+                  example:
+                    "successfully updated the status of the request to [STATUS]",
                 },
               },
             },
           },
         },
       },
-      401: {
-        description: "Server could not process the request",
+      400: {
+        description: "Bad Request, any or both of the field(s) are missing",
         content: {
           "application/json": {
             schema: {
@@ -51,7 +60,7 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "Request with the given requestId does not exist",
+                  example: "need to provide both requestId and status",
                 },
               },
             },
@@ -71,7 +80,11 @@ module.exports = {
                 },
                 message: {
                   type: "string",
-                  example: "something went wrong while cancelling the request",
+                  example: "could not update the status of the requets",
+                },
+                error: {
+                  type: "string",
+                  example: "Error details",
                 },
               },
             },
