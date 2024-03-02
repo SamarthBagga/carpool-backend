@@ -57,7 +57,7 @@ module.exports = {
       res.cookie("secret-token", token, {
         maxAge: COOKIE_MAX_AGE,
         sameSite: "none",
-        secure: true,
+        secure: false,
         httpOnly: false,
       });
       return res.json({ success: true, message: "successfully logged in" });
