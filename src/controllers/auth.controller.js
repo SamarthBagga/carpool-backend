@@ -58,6 +58,7 @@ module.exports = {
         maxAge: COOKIE_MAX_AGE,
         sameSite: "none",
         secure: true,
+        httpOnly: false,
       });
       return res.json({ success: true, message: "successfully logged in" });
     } catch (err) {
@@ -176,7 +177,8 @@ module.exports = {
     res.sendFile(resolve(__dirname, "..", "..", "pages", "verify-email.html"));
   },
   async logoutHandler(req, res) {
-    res.cookie("secret-token", "", { maxAge: 1, httpOnly: true });
+    // res.cookie("secret-token", "", { maxAge: 1, httpOnly: true });
+    res.clearCookie("secret-token");
     res.json({
       success: true,
       message: "logged out",
