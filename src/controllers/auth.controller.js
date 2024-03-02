@@ -56,9 +56,10 @@ module.exports = {
       );
       res.cookie("secret-token", token, {
         maxAge: COOKIE_MAX_AGE,
-        sameSite: "none",
-        secure: false,
-        httpOnly: false,
+        // sameSite: "none",
+        // secure: false,
+        // httpOnly: false,
+        httpOnly: false, secure: true, sameSite: 'None'
       });
       return res.json({ success: true, message: "successfully logged in" });
     } catch (err) {
