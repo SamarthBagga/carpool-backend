@@ -37,9 +37,9 @@ module.exports = {
       });
     }
 
+    let existingUser = null;
     try {
-      const existingUser = await User.findOne({ email });
-
+      existingUser = await User.findOne({ email });
       if (!existingUser) {
         return res.status(401).json({
           success: false,
@@ -50,12 +50,13 @@ module.exports = {
       return res.status(500).json({
         success: false,
         message: "internal server error while verifying the email",
-        err: err.message
+        err: err.message,
       });
     }
 
     try {
       const isPasswordValid = await existingUser.validUser(password);
+      console.log("isPasswordValid", isPasswordValid);
       if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
