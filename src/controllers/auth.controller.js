@@ -28,7 +28,6 @@ function validEmail(email) {
 module.exports = {
   async loginHandler(req, res) {
     const { email, password } = req.body;
-    console.log(req.body);
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -37,40 +36,20 @@ module.exports = {
       });
     }
 
-    let existingUser = null;
     try {
-      existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email });
       if (!existingUser) {
-        return res.status(401).json({
-          success: false,
-          message: "user does not exist",
-        });
+        throw new Error("user does not exist");
       }
-    } catch (err) {
-      return res.status(500).json({
-        success: false,
-        message: "internal server error while verifying the email",
-        err: err.message,
-      });
-    }
 
-    try {
       const isPasswordValid = await existingUser.validUser(password);
-      console.log("isPasswordValid", isPasswordValid);
       if (!isPasswordValid) {
-        return res.status(401).json({
-          success: false,
-          message: "user does not exist",
-        });
+        throw new Error("user does not exist");
       }
 
       if (!existingUser.verifiedEmail) {
-        return res.status(401).json({
-          success: false,
-          message: "email has not been verified",
-        });
+        throw new Error("email has not been verified");
       }
-
       const token = sign(
         { id: existingUser._id, email, password },
         process.env.SECRET_KEY
@@ -85,6 +64,7 @@ module.exports = {
       return res.status(500).json({
         success: false,
         message: "internal server error while validating user",
+        error: err.message,
       });
     }
   },
