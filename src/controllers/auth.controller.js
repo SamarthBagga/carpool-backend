@@ -59,7 +59,7 @@ module.exports = {
         // sameSite: "none",
         // secure: false,
         // httpOnly: false,
-        httpOnly: false, secure: true, sameSite: 'None'
+        httpOnly: false, secure: true, sameSite: 'None', partitioned: true
       });
       return res.json({ success: true, message: "successfully logged in" });
     } catch (err) {

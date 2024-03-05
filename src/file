@@ -1,0 +1,14 @@
+
+> carpool-backend@0.0.3 dev
+> ENV=DEV ENABLE_MAILER=false nodemon ./src/index.js
+
+[33m[nodemon] 3.1.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node ./src/index.js`[39m
+Mailing service for email verification is set to: false
+Connected to MongoDB at mongodb://localhost:27017/carpool-db/retryWrites=true&w=majority
+server listening at 4500
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGYwYjFhZGU3M2NhMDI2ZjI5MzhkMiIsImVtYWlsIjoiYWRtaW5AbXVqLm1hbmlwYWwuZWR1IiwicGFzc3dvcmQiOiJhZG1pbiIsImlhdCI6MTcwOTExNjI2NH0.jPmjnsB0RTB5PxOJiEE40rL3Xywej_pr8Q248Doggd4
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
