@@ -212,7 +212,7 @@ module.exports = {
             capacity: 1,
             _id: 0,
           },
-          { session },
+          { session }
         );
         if (ride.requests.length >= ride.capacity) {
           throw new Error("ride is full, cannot add more passengers");
@@ -324,6 +324,7 @@ module.exports = {
         path: "host",
         select: "-password -verifiedEmail",
       });
+      console.log(rides);
       return res.json({
         success: true,
         message: "These are the rides created by the given user",
@@ -345,7 +346,7 @@ module.exports = {
       const updatedRide = await Ride.findByIdAndUpdate(
         rideId,
         { $set: updatedRideDetails },
-        { new: true },
+        { new: true }
       );
 
       if (!updatedRide) {
