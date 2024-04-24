@@ -54,14 +54,18 @@ module.exports = {
         { id: existingUser._id, email, password },
         process.env.SECRET_KEY
       );
-      res.cookie("secret-token", token, {
-        maxAge: COOKIE_MAX_AGE,
-        // sameSite: "none",
-        // secure: false,
-        // httpOnly: false,
-        httpOnly: false, secure: true, sameSite: 'None', partitioned: true
+      // res.cookie("secret-token", token, {
+      //   maxAge: COOKIE_MAX_AGE,
+      //   // sameSite: "none",
+      // secure: false,
+      // httpOnly: false,
+      //   httpOnly: false, secure: true, sameSite: 'None', partitioned: true
+      // });
+      return res.json({
+        success: true,
+        message: "successfully logged in",
+        token,
       });
-      return res.json({ success: true, message: "successfully logged in" });
     } catch (err) {
       return res.status(500).json({
         success: false,
