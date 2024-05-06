@@ -1,8 +1,16 @@
 const { verify } = require("jsonwebtoken");
 const User = require("../models/user.model");
-exports.authMiddleware = async function (req, res, next) {
-  // const loginToken = req.cookies["secret-token"];
+exports.authMiddleware = async function(req, res, next) {
   const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    return res
+      .status(401)
+      .json({
+        success: false,
+        message: "authorization header not present"
+      });
+  }
+
   const loginToken = authHeader.split(" ")[1];
   console.log(loginToken);
 
