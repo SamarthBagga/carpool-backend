@@ -6,12 +6,14 @@ set -e
 # Update package lists
 echo "Updating the APT Repository..."
 apt update 
+apt install -y git nginx
 
 # Install NVM (Node Version Manager)
 echo "Installing NVM (Node Version Manager) ..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 # Install Node.js and npm using NVM
+source ~/.bashrc
 nvm install --lts
 source ~/.bashrc
 
