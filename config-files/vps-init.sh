@@ -1,4 +1,3 @@
-# #!/bin/bash
 set -e
 
 # Make sure that terminal session is not open as root user
