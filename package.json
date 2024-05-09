@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ENV=DEV ENABLE_MAILER=false nodemon ./src/index.js",
-    "server": "ENV=PROD ENABLE_MAILER=false node ./src/index.js"
+    "server": "ENV=PROD ENABLE_MAILER=false node ./src/index.js",
+    "prod-server": "ENV=PROD ENABLE_MAILER=false pm2 start ./src/index.js"
   },
   "keywords": [],
   "author": "",
