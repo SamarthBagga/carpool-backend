@@ -1,16 +1,17 @@
 #!/bin/bash
 
+# Make sure that terminal session is not open as root user
+
 # Update package lists
 echo "Updating the APT Repository..."
-sudo apt update 
+apt update 
 
-# Install curl if not installed
-echo "Installing curl..."
-sudo apt install -y curl
-
-# Install Node.js and npm using NVM (Node Version Manager)
+# Install NVM (Node Version Manager)
 echo "Installing NVM (Node Version Manager) ..."
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# Install Node.js and npm using NVM
+nvm install --lts
 
 # Clone your repository
 echo "Cloning Backend Github Repository..."
@@ -21,15 +22,16 @@ echo "Installing Dependencies..."
 npm install
 npm install -g pm2
 
+# Copy Nginx configuration files
+cp config-files/nginx/carpool-backend.conf /etc/nginx/sites-available/carpool-backend.conf
+
+# Enable Nginx configuration
+sed -i '/http {/a \ \ # Additional configuration lines here' /etc/nginx/nginx.conf
+ln -s /etc/nginx/sites-available/carpool-backend.conf /etc/nginx/sites-enabled/carpool-backend.conf 
+nginx -t && systemctl restart nginx
+
 echo "Starting Backend Server..."
 npm run prod-server
 
 echo "Deployment completed successfully!"
-
-# Copy Nginx configuration files
-sudo cp config-files/carpool-backend.conf /etc/nginx/sites-available/carpool-backend.conf
-
-# Enable Nginx configuration
-sudo ln -s /etc/nginx/sites-available/carpool-backend.conf /etc/nginx/sites-enabled/carpool-backend.conf 
-sudo nginx -t && sudo systemctl restart nginx
 
