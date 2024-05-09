@@ -8,10 +8,11 @@ apt update
 
 # Install NVM (Node Version Manager)
 echo "Installing NVM (Node Version Manager) ..."
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 # Install Node.js and npm using NVM
 nvm install --lts
+source ~/.bashrc
 
 # Clone your repository
 echo "Cloning Backend Github Repository..."
