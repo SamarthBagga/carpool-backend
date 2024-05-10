@@ -30,7 +30,7 @@ cp config-files/nginx/carpool-backend.conf /etc/nginx/sites-available/carpool-ba
 # Enable Nginx configuration
 sed -i '/http {/a \ \ limit_req_zone $binary_remote_addr zone=carpool_limit:10m rate=20r/s;' /etc/nginx/nginx.conf
 ln -s /etc/nginx/sites-available/carpool-backend.conf /etc/nginx/sites-enabled/carpool-backend.conf 
-nginx -t && systemctl restart nginx
+nginx -t && service nginx restart
 
 echo "Starting Backend Server..."
 npm run prod-server
