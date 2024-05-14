@@ -28,6 +28,6 @@
     "cookie": "0.6.0"
   },
   "devDependencies": {
-    "prettier": "3.2.4"
+    "prettier": "^3.2.4"
   }
 }

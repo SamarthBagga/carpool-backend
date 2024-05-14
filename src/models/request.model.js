@@ -8,8 +8,7 @@ const requestSchema = Schema(
       required: true,
     },
     ride: {
-      type: Schema.Types.ObjectId,
-      ref: "Ride",
+      type: Schema.Types.ObjectId, ref: "Ride",
       required: true,
     },
     status: {
