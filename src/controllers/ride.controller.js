@@ -4,7 +4,7 @@ const Ride = require("../models/ride.model");
 const User = require("../models/user.model");
 
 module.exports = {
-  byId: async function (req, res) {
+  byId: async function(req, res) {
     const { rideId: id } = req.params;
     console.log("why is this being called anyways", id);
 
@@ -37,7 +37,7 @@ module.exports = {
       });
     }
   },
-  getRideDetailById: async function (req, res) {
+  getRideDetailById: async function(req, res) {
     const { id } = req.body;
     // const { rideId: id } = req.params;
 
@@ -114,6 +114,11 @@ module.exports = {
         throw new Error(`Ride with ID: ${rideId} does not exist`);
       }
 
+      const existingRide = Request.find({ ride: rideId, passenger: req.user.id });
+      if (existingRide) {
+        throw new Error("Request to the same already exists");
+      }
+
       const request = new Request({ ride: rideId, passenger: req.user.id });
       const savedRequest = await request.save({ session });
 
@@ -137,7 +142,7 @@ module.exports = {
 
       res.status(500).json({
         success: false,
-        message: "could not send the request to join",
+        message: "Could not send the request to join",
         error: err.message,
       });
     } finally {
