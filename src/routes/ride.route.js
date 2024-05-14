@@ -5,7 +5,7 @@ const { authMiddleware } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 router
-  .get("/get/:rideId", authMiddleware, rideController.byId)
+  .get("/get/:rideId", authMiddleware, rideController.getRideById)
   .post("/create", authMiddleware, rideController.createRide)
   .post("/request", authMiddleware, rideController.requestRide)
   .post("/search", authMiddleware, rideController.searchRides)
